@@ -1,6 +1,7 @@
 package server;
 
 
+
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -18,7 +19,7 @@ public class SkeletonServidorProxy {
 	public static void main(String args[]){
 		try {
 			// Criando
-			SistemaDistribuido s = new SistemaDistribuido();
+			Servidor s = new Servidor();
 			
 			//Politica de segurança
 			System.setProperty("java.security.policy", "java.policy");
@@ -32,7 +33,7 @@ public class SkeletonServidorProxy {
 			// Definindo o hostname do servidor
 			System.setProperty("java.rmi.server.hostname", nomeServidor);
 			
-			ServidorDistribuido stub = (ServidorDistribuido)
+			InterfaceDoServidor stub = (InterfaceDoServidor)
 			UnicastRemoteObject.exportObject(s, 0);
 			
 			// Criando serviÃ§o de registro
@@ -40,7 +41,8 @@ public class SkeletonServidorProxy {
 			
 			// Registrando objeto distribuÂ´Ä±do
 			registro.bind(NOMEOBJDIST, stub);
-			System.out.println("Servidor pronto!\n");
+			System.out.println("Servidor proxy pronto!\n");
+			System.out.println("Endereço: "+nomeServidor+"\nPorta: "+porta+"\n");
 			System.out.println("Pressione CTRL + C para encerrar...");
 		} catch (RemoteException | AlreadyBoundException ex) {
 		Logger.getLogger(SkeletonServidorProxy.class.getName()).log(Level.SEVERE, null, ex);
