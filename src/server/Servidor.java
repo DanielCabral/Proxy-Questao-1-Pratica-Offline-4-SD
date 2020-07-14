@@ -3,9 +3,14 @@ package server;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
+
+import javax.swing.JOptionPane;
 
 import models.Arquivo;
 
@@ -49,13 +54,32 @@ public class Servidor implements InterfaceDoServidor, Serializable{
 	
 	public void limparCache() throws RemoteException{
 		acesso.clear();
+		JOptionPane.showMessageDialog(null, "Cache apagado.");
 	}
 
 	@Override
-	public void receberArquivo(Arquivo arquivo) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+	public void receberArquivo(Arquivo arquivo) throws RemoteException, ParseException {
+		Arquivo arquivocache = listaDeArquivosEmCache.get(arquivo.getNome());
+		if(arquivocache != null) {
+			System.out.println("enviar Arquivo para servidor");
+			System.out.println(arquivo.getNome());
+			boolean enviar=arquivoMaisRecente(arquivo.getDataDeModificacao(), arquivocache.getDataDeModificacao());
+			System.out.println("enviar: "+enviar);
+			System.out.println(arquivo.getDataDeModificacao()+" "+arquivocache.getDataDeModificacao());
+			if(enviar)
+				cliente.receberArquivo(arquivo);
+		}
 	}
 	
+	public boolean arquivoMaisRecente(String dataArquivo1, String dataArquivo2) throws ParseException {
+		SimpleDateFormat formatter=new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss"); 
+		Date date1= formatter.parse(dataArquivo1);
+		Date date2= formatter.parse(dataArquivo2);
+		if(date2.compareTo(date1) > 0) {
+			return false;
+		}else {
+			return true;
+		}
+	}
 	
 }

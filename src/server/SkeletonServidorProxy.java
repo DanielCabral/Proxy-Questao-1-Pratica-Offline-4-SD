@@ -16,7 +16,7 @@ public class SkeletonServidorProxy {
 	private static String nomeServidor = "127.0.0.1";
 	private static int porta = 12345;
 	private static final String NOMEOBJDIST = "SistemaDistribuido";
-	public static void main(String args[]){
+	public SkeletonServidorProxy() {
 		try {
 			// Criando
 			Servidor s = new Servidor();
@@ -45,7 +45,11 @@ public class SkeletonServidorProxy {
 			System.out.println("Endereço: "+nomeServidor+"\nPorta: "+porta+"\n");
 			System.out.println("Pressione CTRL + C para encerrar...");
 		} catch (RemoteException | AlreadyBoundException ex) {
-		Logger.getLogger(SkeletonServidorProxy.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(SkeletonServidorProxy.class.getName()).log(Level.SEVERE, null, ex);
 		}
+	}
+	
+	public static void main(String args[]){
+		
 	}
 }

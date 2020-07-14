@@ -13,7 +13,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root,245,162);
 			primaryStage.setScene(scene);
 			primaryStage.resizableProperty().setValue(Boolean.FALSE);
-			primaryStage.setTitle("Servidor");
+			primaryStage.setTitle("Servidor Proxy");
 			primaryStage.setResizable(false);
 			primaryStage.show();
 		} catch(Exception e) {

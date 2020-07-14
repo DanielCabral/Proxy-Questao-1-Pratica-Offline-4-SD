@@ -6,6 +6,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +34,7 @@ public class StubProxy {
 			
 			// Obtendo refer^encia do servi¸co de registro
 			registro = LocateRegistry.getRegistry(nomeServidor, porta);
-					
+			System.out.println("Conectado com servidor");
 			// Procurando pelo objeto distribu´ıdo registrado previamente com o NOMEOBJDIST
 			stub = (InterfaceDoServidor) registro.lookup(NOMEOBJDIST);
 		} catch (RemoteException | NotBoundException ex) {
@@ -50,9 +51,17 @@ public class StubProxy {
 	public Arquivo enviarArquivo(String nome) throws RemoteException{
 		return stub.enviarArquivo(nome);
 	}
+	
 	public void limparCache() throws RemoteException{
 		stub.limparCache();
 	}
 	
+	public void receberArquivo(Arquivo arquivo) throws RemoteException, ParseException {
+		stub.receberArquivo(arquivo);
+	}
+	
+	public static void main(String [] args) {
+	
+	}
 	
 }
