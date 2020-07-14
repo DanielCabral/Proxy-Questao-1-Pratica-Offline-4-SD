@@ -66,8 +66,15 @@ public class Servidor implements InterfaceDoServidor, Serializable{
 			boolean enviar=arquivoMaisRecente(arquivo.getDataDeModificacao(), arquivocache.getDataDeModificacao());
 			System.out.println("enviar: "+enviar);
 			System.out.println(arquivo.getDataDeModificacao()+" "+arquivocache.getDataDeModificacao());
-			if(enviar)
+			if(enviar) {
 				cliente.receberArquivo(arquivo);
+				listaDeArquivosEmCache.remove(arquivo.getNome());
+				//Se tiver tido primeiro acesso, remover da lista ligada.
+				int index = acesso.indexOf(arquivo.getNome());
+				if(index != -1) {
+					acesso.remove(index);
+				}
+			}
 		}
 	}
 	
